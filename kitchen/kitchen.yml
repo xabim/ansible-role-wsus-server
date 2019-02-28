@@ -1,0 +1,25 @@
+---
+driver:
+  name: vagrant
+  gui: true
+
+platforms:
+  - name: win2012r2core
+    driver_config:
+      box: MattHodge/Windows2012R2Core-WMF5-NOCM
+      communicator: winrm
+      network:
+      - [ 'private_network', { ip: '172.28.128.11' } ]
+      provision: true
+      vagrantfiles:
+        - vagrant_windows_target.rb
+    transport:
+      name: winrm
+    verifier:
+      name: pester
+      test_folder: tests
+    provisioner:
+      name: shell
+
+suites:
+  - name: default
