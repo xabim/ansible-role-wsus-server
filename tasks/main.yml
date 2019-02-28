@@ -4,5 +4,9 @@
     name: UpdateServices
     state: present
     include_management_tools: True
-    
+
+- name: Create content folder for WSUS
+  win_file:
+    path: "{{ wsus_content_folder }}"
+    state: directory
     
