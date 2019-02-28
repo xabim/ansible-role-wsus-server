@@ -4,6 +4,30 @@ driver:
   gui: true
 
 platforms:
+  - name: ansibleserver
+    driver_plugin: vagrant
+    driver_config:
+      box: debian/jessie64
+      network:
+      - [ 'private_network', { ip: '172.28.128.10' } ]
+    transport:
+      max_ssh_sessions: 1
+    provisioner:
+      name: ansible_playbook
+      roles_path: ../
+      role_name: wsus_server
+      ansible_connection: winrm
+      ansible_inventory: inventory/hosts
+      require_windows_support: true
+      require_chef_for_busser: false
+      ansible_host_key_checking: false
+      ansible_verbose: true
+      ansible_verbosity: 4
+      playbook: default.yml
+    verifier:
+      name: shell
+      command: echo 'Skipping Verify'
+
   - name: win2012r2core
     driver_config:
       box: MattHodge/Windows2012R2Core-WMF5-NOCM
