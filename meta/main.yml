@@ -1,4 +1,5 @@
 galaxy_info:
+  role_name: wsus_server
   author: Javier Marti
   description: A guy who knows things
 

@@ -1,0 +1,5 @@
+---
+- name: wsus_server
+  hosts: windows-servers
+  roles:
+    - wsus_server
