@@ -1,6 +1,6 @@
 describe "win_wsus_demo ansible role" {
 
-    Context "windows features" {
+    Context "Windows features" {
         $featuresToGet = @(
             'UpdateServices'
         )
@@ -11,6 +11,19 @@ describe "win_wsus_demo ansible role" {
             it "$($f) feature is installed" {
                 ($x | Where-Object { $_.Name -eq $f }).Installed | Should Be $true
             }
+        }
+    }
+
+    Context "Folder WSUS configuration" {
+        BeforeAll {
+            $polkey = 'HKLM:\Software\Microsoft\Update Services\Server'
+            $WUServerContentDir = 'C:\WSUSTestFolder'
+        }
+        it "exists" {
+            $WUServerContentDir | Should -Exist
+        }
+        it "is configurated in WSUS" {
+            (Get-ItemProperty -Path $polkey -Name Setup).ContentDir | Should Be $WUServerContentDir
         }
     }
 }
