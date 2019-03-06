@@ -10,3 +10,8 @@
     path: "{{ wsus_content_folder }}"
     state: directory
     
+- name: Change content folder for WSUS
+  win_command: 'wsusutil.exe postinstall CONTENT_DIR={{ wsus_content_folder }}'
+  args:
+    chdir: 'C:\Program Files\Update Services\Tools\'
+    creates: '{{ wsus_content_folder }}\WsusContent'
