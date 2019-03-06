@@ -32,4 +32,4 @@ BSD
 Author Information
 ------------------
 
-Javier Marti <javier.marti@flywire.com>
+Javier Marti <>
