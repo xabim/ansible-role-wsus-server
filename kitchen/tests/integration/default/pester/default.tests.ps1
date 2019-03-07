@@ -16,14 +16,14 @@ describe "win_wsus_demo ansible role" {
 
     Context "Folder WSUS configuration" {
         BeforeAll {
-            $polkey = 'HKLM:\Software\Microsoft\Update Services\Server\Setup'
             $WUServerContentDir = 'C:\WSUSTestFolder'
+            $WSUServer = Get-WsusServer
         }
         it "exists" {
             $WUServerContentDir | Should -Exist
         }
         it "is configurated in WSUS" {
-            (Get-ItemProperty -Path $polkey -Name ContentDir).ContentDir | Should Be $WUServerContentDir
+            $WSUServer.GetConfiguration().LocalContentCachePath | Should Be "$WUServerContentDir\WsusContent"
         }
     }
 }
