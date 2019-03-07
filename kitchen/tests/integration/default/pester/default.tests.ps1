@@ -26,4 +26,16 @@ describe "win_wsus_demo ansible role" {
             $WSUServer.GetConfiguration().LocalContentCachePath | Should Be "$WUServerContentDir\WsusContent"
         }
     }
+
+    Context "Default Automatic Approval Rule" {
+        BeforeAll {
+            $WSUServer = Get-WsusServer
+        }
+        it "should exist" {
+            ($WSUServer.GetInstallApprovalRules() | Where {$_.Name -eq "Default Automatic Approval Rule"}) | Should -BeTrue
+        }
+        it "should be enabled" {
+            ($WSUServer.GetInstallApprovalRules() | Where {$_.Name -eq "Default Automatic Approval Rule"}).Enabled | Should -BeTrue
+        }
+    }
 }
