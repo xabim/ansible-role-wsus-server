@@ -15,3 +15,20 @@
   args:
     chdir: 'C:\Program Files\Update Services\Tools\'
     creates: '{{ wsus_content_folder }}\WsusContent'
+
+- name: Create automatic approval rule
+  win_shell: |
+    $WSUServer = Get-WsusServer
+    if (-Not ($WSUServer.GetInstallApprovalRules() | Where {$_.Name -Eq "Default Automatic Approval Rule"})) {
+        $WSUServer.CreateInstallApprovalRule("Default Automatic Approval Rule")
+    }
+  register: automatic_rule
+
+- name: Enable automatic approval rule
+  win_shell: |
+    $WSUServer = Get-WsusServer
+    $AutomaticRule = $WSUServer.GetInstallApprovalRules() | Where {$_.Name -Eq "Default Automatic Approval Rule"}
+    $AutomaticRule.Enabled = $True
+    $AutomaticRule.Save()
+    $AutomaticRule.ApplyRule()
+  when: automatic_rule.changed
